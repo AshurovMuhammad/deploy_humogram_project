@@ -11,3 +11,8 @@ class IndexPage(TemplateView):
         context = super().get_context_data(**kwargs)
         context['posts'] = Post.objects.all()
         return context
+
+
+class UserPostView(TemplateView):
+    template_name = "user_posts.html"
+

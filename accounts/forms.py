@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from accounts.models import User
+from operator import attrgetter
 
 
 class LoginForm(forms.Form):
@@ -44,4 +45,38 @@ class UserRegisterForm(UserCreationForm):
             "birthday": forms.DateTimeInput(
                 attrs={"class": "form-control",
                        "type": "date"})
+        }
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = (
+            "avatar",
+            "email",
+            "first_name",
+            "last_name",
+            "birthday",
+            "phone",
+        )
+
+        widgets = {
+            "avatar": forms.FileInput(
+                attrs={"class": "form-control"}
+            ),
+            "email": forms.EmailInput(
+                attrs={"class": "form-control"}
+            ),
+            "first_name": forms.TextInput(
+                attrs={"class": "form-control"}
+            ),
+            "last_name": forms.TextInput(
+                attrs={"class": "form-control"}
+            ),
+            "birthday": forms.DateInput(
+                attrs={"class": "form-control", "type": "date"}
+            ),
+            "phone": forms.TextInput(
+                attrs={"class": "form-control"}
+            )
         }

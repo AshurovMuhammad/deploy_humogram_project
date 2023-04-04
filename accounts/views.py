@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from accounts.forms import LoginForm, UserRegisterForm
-from django.views.generic import FormView, CreateView
+from accounts.forms import LoginForm, UserRegisterForm, UserUpdateForm
+from django.views.generic import FormView, CreateView, UpdateView
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.urls import reverse_lazy
@@ -24,17 +24,22 @@ class LoginView(FormView):
         return HttpResponse("<h1>Malumot yaroqsiz</h1>")
 
 
+def logout_user(request):
+    if request.user.is_authenticated:
+        logout(request)
+    return redirect("index")
+
+
 class UserRegisterView(CreateView):
     template_name = "register.html"
     form_class = UserRegisterForm
     success_url = reverse_lazy("index")
 
 
-def logout_user(request):
-    if request.user.is_authenticated:
-        logout(request)
-    return redirect('index')
+class UpdateUserView(UpdateView):
+    form_class = UserUpdateForm
+    template_name = "profile.html"
+    success_url = reverse_lazy("user_profile")
 
-
-def get_profile(request):
-    return render(request, 'profile.html')
+    def get_object(self):
+        return self.request.user
