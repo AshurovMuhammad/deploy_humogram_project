@@ -34,3 +34,7 @@ def logout_user(request):
     if request.user.is_authenticated:
         logout(request)
     return redirect('index')
+
+
+def get_profile(request):
+    return render(request, 'profile.html')
