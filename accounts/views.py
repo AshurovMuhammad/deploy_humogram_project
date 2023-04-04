@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from accounts.forms import LoginForm
-from django.views.generic import FormView
+from accounts.forms import LoginForm, UserRegisterForm
+from django.views.generic import FormView, CreateView
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
+from django.urls import reverse_lazy
 
 
 # Create your views here.
@@ -23,8 +24,10 @@ class LoginView(FormView):
         return HttpResponse("<h1>Malumot yaroqsiz</h1>")
 
 
-def register(request):
-    return render(request, 'register.html')
+class UserRegisterView(CreateView):
+    template_name = "register.html"
+    form_class = UserRegisterForm
+    success_url = reverse_lazy("index")
 
 
 def logout_user(request):

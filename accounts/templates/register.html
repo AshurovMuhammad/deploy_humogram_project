@@ -16,6 +16,10 @@
         {% endfor %}
         {% endif %}
         <div class="mb-3">
+            <label class="form-label">Login</label>
+            {{form.username}}
+        </div>
+        <div class="mb-3">
             <label class="form-label">Ism</label>
             {{form.first_name}}
         </div>
@@ -24,16 +28,16 @@
             {{form.last_name}}
         </div>
         <div class="mb-3">
-            <label class="form-label">Sharf</label>
-            {{form.middle_name}}
-        </div>
-        <div class="mb-3">
             <label class="form-label">Pochta manzil</label>
             {{form.email}}
         </div>
         <div class="mb-3">
             <label class="form-label">Telefon raqam</label>
             {{form.phone}}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Tug'ilgan sana</label>
+            {{form.birthday}}
         </div>
 
 
