@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from accounts.forms import LoginForm, UserRegisterForm, UserUpdateForm
-from django.views.generic import FormView, CreateView, UpdateView
+from django.views.generic import FormView, CreateView, UpdateView, ListView
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.urls import reverse_lazy
+from accounts.models import User
 
 
 # Create your views here.
@@ -43,3 +44,20 @@ class UpdateUserView(UpdateView):
 
     def get_object(self):
         return self.request.user
+
+
+class UsersSearchListView(ListView):
+    template_name = 'users.html'
+    model = User
+
+    def get_queryset(self):
+        search_text = self.request.GET.get("query")
+        if search_text:
+            search_users = User.objects.filter(username__icontains=search_text)
+            return search_users
+        return None
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_text"] = self.request.GET.get("query")
+        return context

@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-header d-print-none">
+    <div class="container-xl">
+        <div class="row g-2 align-items-center">
+            <div class="col">
+                <h2 class="page-title">
+                    '{{ search_text }}' ma'lumot bo'yicha qidiruv natijalari:
+                </h2>
+                <div class="text mt-1"></div>
+            </div>
+            <!-- Page title actions -->
+            <div class="col-auto ms-auto d-print-none">
+                <div class="d-flex">
+                    <form action="{% url 'user_search' %}" method="get">
+                        <input name="query" type="search" class="form-control d-inline-block w-9 me-3"
+                               placeholder="Foydalanuvchini qidirish ..."/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="page-body">
+    <div class="container-xl">
+        <div class="row row-cards">
+            {% for user in object_list %}
+            <div class="col-md-6 col-lg-3">
+                <div class="card">
+                    <div class="card-body p-4 text-center">
+                        {% if user.avatar %}
+                            <div style="line-height: 0;
+                            display: inline-block;
+                            height: 128px; width: 128px;">
+                                <img height="128" width="128" src="{{ user.avatar.url }}" style="border-radius: 50%;">
+                            </div>
+                        {% else %}
+                            <div style="line-height: 0;
+                                    display: inline-block;
+                                    height: 128px; width: 128px;">
+                                <img height="128" width="128" src="/static/img/icons/default.jpg" style="border-radius: 50%;">
+                            </div>
+                        {% endif %}
+                        <h3 class="m-0 mb-1"><a href="#">{{ user.username }}</a></h3>
+                        <div class="text-muted">{{ user.full_name }}</div>
+                    </div>
+                    <div class="d-flex">
+                        <a href="#" class="btn btn-success w-50"><!-- Download SVG icon from http://tabler-icons.io/i/mail -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                   <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                   <path d="M16 19h6"></path>
+                                   <path d="M19 16v6"></path>
+                                   <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+                                </svg>
+                            Obuna boʻlish</a>
+                        <a href="#" class="btn btn-info w-50"><!-- Download SVG icon from http://tabler-icons.io/i/phone -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                   <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                   <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                </svg>
+                            Profil</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="d-flex mt-4">
+            <ul class="pagination ms-auto">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                             stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M15 6l-6 6l6 6"/>
+                        </svg>
+                        prev
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">
+                        next <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                             stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M9 6l6 6l-6 6"/>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

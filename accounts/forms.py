@@ -80,3 +80,4 @@ class UserUpdateForm(forms.ModelForm):
                 attrs={"class": "form-control"}
             )
         }
+
