@@ -18,3 +18,14 @@ class PostCreateForm(forms.ModelForm):
                 attrs={"class": "form-control"}
             )
         }
+
+
+class PostUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ["description"]
+        widgets = {
+            "description": forms.Textarea(
+                attrs={"class": "form-control"}
+            )
+        }

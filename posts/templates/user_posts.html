@@ -47,13 +47,13 @@
         {% for post in object_list %}
         <div class="col-sm-6 col-lg-4">
           <div class="card card-sm">
-            <a href="#" class="d-block"><img src="{{post.image.url}}" class="card-img-top"></a>
+            <a href="{% url 'post_details' post.id %}" class="d-block"><img src="{{post.image.url}}" class="card-img-top"></a>
             <div class="card-body">
               <div class="d-flex align-items-center">
                 {% if post.author.avatar %}
-                <span class="avatar me-3 rounded" style="background-image: url({{post.author.avatar.url}})"></span>
+                <span class="avatar me-3 rounded" style="background-image: url({{post.author.avatar.url}}); border-radius: 50%"></span>
                 {% else %}
-                <span class="avatar me-3 rounded" style="background-image: url(/static/img/icons/user_profile.png)"></span>
+                <span class="avatar me-3 rounded" style="background-image: url(/static/img/icons/user_profile.png);  border-radius: 50%"></span>
                 {% endif %}
 
                 <div>
@@ -146,4 +146,6 @@
         </div>
     </div>
 </div>
+
+
 {% endblock %}
