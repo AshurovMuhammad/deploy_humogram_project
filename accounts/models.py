@@ -7,6 +7,7 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to='users/avatars/', null=True, blank=True, verbose_name="Profil rasmi")
     birthday = models.DateField("Tug'ilgan sana", null=True)
     phone = models.CharField("Telefon raqam", max_length=13, null=True)
+    following = models.ManyToManyField("self", blank=True, null=True, related_name="followers", symmetrical=False)
 
     class Meta:
         verbose_name = "Foydalanuvchi"
@@ -19,16 +20,11 @@ class User(AbstractUser):
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 
+    @property
+    def followers_count(self):
+        count = self.followers.count()
+        return count
 
-class Follow(models.Model):
-    to_user = models.ForeignKey(User, related_name="followers", on_delete=models.CASCADE)  # НА КОГО ПОДПИСАЛ
-    from_user = models.ForeignKey(User, related_name="follows", on_delete=models.CASCADE)  # КТО ПОДПИСАЛ
-    created = models.DateTimeField(auto_now_add=True)  # КОГДА ПОДПИСАЛ
-
-    class Meta:
-        verbose_name = "Obunachi"
-        verbose_name_plural = "Obunachilar"
-        ordering = ["-created"]
-
-    def __str__(self):
-        return f"{self.from_user} obuna bo'lgan {self.to_user}ga"
+    @property
+    def following_count(self):
+        return self.following.count()

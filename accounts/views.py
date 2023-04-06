@@ -1,10 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from accounts.forms import LoginForm, UserRegisterForm, UserUpdateForm
 from django.views.generic import FormView, CreateView, UpdateView, ListView
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from accounts.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
+from django.contrib import messages
 
 
 # Create your views here.
@@ -61,3 +64,25 @@ class UsersSearchListView(ListView):
         context = super().get_context_data(**kwargs)
         context["search_text"] = self.request.GET.get("query")
         return context
+
+
+class FollowUser(LoginRequiredMixin, View):
+
+    def get(self, request, user_pk):
+        from_user = request.user
+        print(from_user, request)
+        to_user = get_object_or_404(User, pk=user_pk)
+        if from_user not in to_user.followers.all():
+            messages.add_message(request, messages.SUCCESS, "Siz muoffaqiyatli obuna bo'ldingiz")
+            to_user.followers.add(from_user)
+        return redirect("index")
+
+
+class UnfollowUser(LoginRequiredMixin, View):
+
+    def get(self, request, user_pk):
+        from_user = request.user
+        to_user = get_object_or_404(User, pk=user_pk)
+        if from_user in to_user.followers.all():
+            to_user.followers.remove(from_user)
+        return redirect("index")

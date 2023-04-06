@@ -9,6 +9,10 @@
                 <h2 class="page-title">
                     '{{ search_text }}' ma'lumot bo'yicha qidiruv natijalari:
                 </h2>
+                <h3>
+                    Obunalar: {{ user.following_count }}
+                    Obunachilar: {{ user.followers_count }}
+                </h3>
                 <div class="text mt-1"></div>
             </div>
             <!-- Page title actions -->
@@ -47,9 +51,12 @@
                         {% endif %}
                         <h3 class="m-0 mb-1"><a href="#">{{ user.username }}</a></h3>
                         <div class="text-muted">{{ user.full_name }}</div>
+                        <div class="text">Obunalar: {{ user.following_count }}</div>
+                        <div class="text">Obunachilar: {{ user.followers_count }}</div>
                     </div>
                     <div class="d-flex">
-                        <a href="#" class="btn btn-success w-50"><!-- Download SVG icon from http://tabler-icons.io/i/mail -->
+                        {% if request.user not in user.followers.all %}
+                        <a href="{% url 'follow' user.pk %}" class="btn btn-success w-50"><!-- Download SVG icon from http://tabler-icons.io/i/mail -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                    <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
@@ -58,6 +65,16 @@
                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
                                 </svg>
                             Obuna boʻlish</a>
+                        {% else %}
+                        <a href="{% url 'unfollow' user.pk %}" class="btn btn-danger w-50"><!-- Download SVG icon from http://tabler-icons.io/i/mail -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-minus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                       <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                       <path d="M6 21v-2a4 4 0 0 1 4 -4h4c.348 0 .686 .045 1.009 .128"></path>
+                                       <path d="M16 19h6"></path>
+                                    </svg>
+                            Bekor qilish</a>
+                        {% endif %}
                         <a href="#" class="btn btn-info w-50"><!-- Download SVG icon from http://tabler-icons.io/i/phone -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
