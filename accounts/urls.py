@@ -1,6 +1,14 @@
 from django.urls import path
 
-from accounts.views import LoginView, logout_user, UserRegisterView, UpdateUserView, UsersSearchListView, FollowUser, UnfollowUser
+from accounts.views import (LoginView,
+                            logout_user,
+                            UserRegisterView,
+                            UpdateUserView,
+                            UsersSearchListView,
+                            FollowUser,
+                            UnfollowUser,
+                            UserProfileView
+                            )
 
 
 urlpatterns = [
@@ -11,5 +19,6 @@ urlpatterns = [
     path("search/", UsersSearchListView.as_view(), name="user_search"),
 
     path('follow/<int:user_pk>/', FollowUser.as_view(), name="follow"),
-    path("unfollow/<int:user_pk>/", UnfollowUser.as_view(), name='unfollow')
+    path("unfollow/<int:user_pk>/", UnfollowUser.as_view(), name='unfollow'),
+    path('user/profile/detail/<int:pk>/', UserProfileView.as_view(), name='user_profile_detail')
 ]

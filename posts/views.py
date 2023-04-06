@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, DeleteView, UpdateView
-from posts.models import Post
-from posts.forms import PostCreateForm, PostUpdateForm
+from posts.models import Post, Comment
+from posts.forms import PostCreateForm, PostUpdateForm, CommentForm
 from django.urls import reverse_lazy
 from django.http import Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -63,6 +65,7 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = PostUpdateForm(instance=self.get_object())
+        context["comment_form"] = CommentForm()
         return context
 
 
@@ -104,3 +107,51 @@ def unarchive_post(request, pk):
         post.save()
     return redirect(reverse_lazy("post_details", kwargs={'pk': pk}))
 
+
+class FollowingPostView(LoginRequiredMixin, ListView):
+    template_name = "following_post.html"
+    model = Post
+
+    def get_queryset(self):
+        following = self.request.user.following.all()
+        posts = Post.objects.filter(
+            author__in=following,
+            is_archive=False
+        )
+        return posts
+
+
+@login_required
+def like_post(request, post_pk):
+    post = get_object_or_404(Post, id=post_pk)
+    user = request.user
+    post.likes.add(user)
+    post.save()
+    return redirect("index")
+
+
+@login_required
+def unlike_post(request, post_pk):
+    post = get_object_or_404(Post, id=post_pk)
+    user = request.user
+    if user in post.likes.all():
+        post.likes.remove(user)
+    return redirect('index')
+
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+
+    def form_valid(self, form):
+        post_id = self.kwargs.get("post_id")
+        post = get_object_or_404(Post, id=post_id)
+        instance = form.save(commit=False)
+        instance.author = self.request.user
+        instance.post = post
+        instance.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        pk = self.kwargs.get("post_id")
+        return reverse_lazy("post_details", kwargs={"pk": pk})

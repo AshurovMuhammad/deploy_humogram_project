@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from accounts.forms import LoginForm, UserRegisterForm, UserUpdateForm
-from django.views.generic import FormView, CreateView, UpdateView, ListView
+from django.views.generic import FormView, CreateView, UpdateView, ListView, TemplateView, DetailView
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.urls import reverse_lazy
@@ -86,3 +86,10 @@ class UnfollowUser(LoginRequiredMixin, View):
         if from_user in to_user.followers.all():
             to_user.followers.remove(from_user)
         return redirect("index")
+
+
+class UserProfileView(LoginRequiredMixin, DetailView):
+    template_name = "user_profile.html"
+    model = User
+    queryset = User.objects.all()
+

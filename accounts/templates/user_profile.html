@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section style="background-color: #eee;">
+  <div class="container py-5">
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            {% if object.avatar %}
+              <img src="{{ object.avatar.url }}" alt="avatar"
+                   class="rounded-circle img-fluid" style="width: 150px;">
+            {% else %}
+              <img src="/static/img/icons/default.jpg" class="rounded-circle img-fluid" alt="">
+            {% endif %}
+            <h5 class="my-3">{{ object.full_name }}</h5>
+            <p class="text-primary mb-1">{{ object.username }}</p>
+
+                <div class="d-flex justify-content-center rounded-3 p-2"
+                  style="background-color: #efefef;">
+                  <div>
+                    <p class="small text mb-1">Postlar</p>
+                    <p class="mb-0">{{ user.posts.all.count }}</p>
+                  </div>
+                  <div class="px-3">
+                    <p class="small text mb-1">Obunachilar</p>
+                    <p class="mb-0">{{ user.followers.count }}</p>
+                  </div>
+                  <div>
+                    <p class="small text mb-1">Obunalar</p>
+                    <p class="mb-0">{{ user.following.count }}</p>
+                  </div>
+                </div>
+            <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+            <div class="d-flex justify-content-center mb-2">
+                  {% if request.user not in object.followers.all and request.user not in object.following.all %}
+                        <a href="{% url 'follow' object.id %}" class="btn btn-success w-50"><!-- Download SVG icon from http://tabler-icons.io/i/mail -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                   <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                   <path d="M16 19h6"></path>
+                                   <path d="M19 16v6"></path>
+                                   <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+                                </svg>
+                            Obuna boʻlish</a>
+                        {% elif request.user not in object.followers.all %}
+                        <a href="{% url 'follow' object.id %}" class="btn btn-success w-50"><!-- Download SVG icon from http://tabler-icons.io/i/mail -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                   <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                   <path d="M16 19h6"></path>
+                                   <path d="M19 16v6"></path>
+                                   <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+                                </svg>
+                            Qaytarish</a>
+                        {% else %}
+                        <a href="{% url 'unfollow' object.id %}" class="btn btn-danger w-50"><!-- Download SVG icon from http://tabler-icons.io/i/mail -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-minus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                       <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                       <path d="M6 21v-2a4 4 0 0 1 4 -4h4c.348 0 .686 .045 1.009 .128"></path>
+                                       <path d="M16 19h6"></path>
+                                    </svg>
+                            Bekor qilish</a>
+                  {% endif %}
+              <a href="" class="btn btn-white">Xabar yozish</a>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-4 mb-lg-0">
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush rounded-3">
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i class="fas fa-globe fa-lg text-warning"></i>
+                <p class="mb-0">https://mdbootstrap.com</p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i class="fab fa-github fa-lg" style="color: #333333;"></i>
+                <p class="mb-0">mdbootstrap</p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
+                <p class="mb-0">@mdbootstrap</p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
+                <p class="mb-0">mdbootstrap</p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
+                <p class="mb-0">mdbootstrap</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Elektron manzil</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ object.email }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Telefon raqam</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ object.phone }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Tug'ilgan sanasi</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ object.birthday }}</p>
+              </div>
+            </div>
+              <hr>
+          </div>
+        </div>
+
+<!--          postlar uchun block-->
+      <div class="row">
+          <div class="col-lg-8">
+              <div class="card">
+                  <div class="card-body">
+                      <div class="row row-cols-3 g-3">
+                          {% for post in object.posts.all %}
+                            <a href="{% url 'post_details' post.id %}">
+                                <img src="{{ post.image.url }}" alt="" class="rounded"
+                                     style="float: left; width: 400px; height: 100px; object-fit: cover">
+                            </a>
+                          {% endfor %}
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

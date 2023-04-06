@@ -1,44 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container-xl">
-    <div class="row g-2 align-items-center">
-        <div class="col">
-            <h2 class="page-title">
-                Sizning postlaringiz
-            </h2>
-            <div class="text-muted mt-1">1-12 of 241 photos</div>
-        </div>
-        <!-- Page title actions -->
-        <div class="col-auto ms-auto d-print-none">
-            <div class="d-flex">
-                <div class="me-3">
-                    <div class="input-icon">
-                        <input type="text" value="" class="form-control" placeholder="Search…">
-                        <span class="input-icon-addon">
-                        <!-- Download SVG icon from http://tabler-icons.io/i/search -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
-                             stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                             stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path
-                                d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/><path d="M21 21l-6 -6"/></svg>
-                      </span>
-                    </div>
-                </div>
-                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report">
-                    <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
-                         stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                         stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M12 5l0 14"/>
-                        <path d="M5 12l14 0"/>
-                    </svg>
-                    Post qo'shish
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="page-body">
     <div class="container-xl">
@@ -47,18 +9,18 @@
         {% for post in object_list %}
         <div class="col-sm-6 col-lg-4">
           <div class="card card-sm">
-            <a href="{% url 'post_details' post.id %}" class="d-block"><img src="{{post.image.url}}" class="card-img-top"
-                                                                            style="float: center; width: 400px; height: 250px; object-fit: cover"></a>
+            <a href="{% url 'post_details' post.id %}" class="d-block">
+                <img src="{{post.image.url}}" class="card-img-top" style="float: center; width: 400px; height: 250px; object-fit: cover"></a>
             <div class="card-body">
               <div class="d-flex align-items-center">
                 {% if post.author.avatar %}
-                <span class="avatar me-3 rounded" style="background-image: url({{post.author.avatar.url}})"></span>
+                <span class="avatar me-3 rounded" style="background-image: url({{post.author.avatar.url}}); border-radius: 50%"></span>
                 {% else %}
-                <span class="avatar me-3 rounded" style="background-image: url(/static/img/icons/default.jpg)"></span>
+                <span class="avatar me-3 rounded" style="background-image: url(/static/img/icons/user_profile.png);  border-radius: 50%"></span>
                 {% endif %}
 
                 <div>
-                  <div>{{ post.author.username }}</div>
+                  <div><a href="{% url 'user_profile_detail' post.author.id %}">{{ post.author.username }}</a></div>
                   <div class="text-muted">6 days ago</div>
                 </div>
                 <div class="ms-auto">
@@ -130,35 +92,5 @@
         </div>
     </div>
 </div>
-
-<div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Yangi post yaratish</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-          <form action="{% url 'create_post' %}" method="post" enctype="multipart/form-data">
-              {% csrf_token %}
-              {{form}}
-              <div class="modal-footer">
-                <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
-                  Yopish
-                </a>
-                <button type="submit" class="btn btn-primary">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-                  Yaratish
-                </button>
-              </div>
-          </form>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-
-
 
 {% endblock %}
