@@ -8,6 +8,7 @@ class User(AbstractUser):
     birthday = models.DateField("Tug'ilgan sana", null=True)
     phone = models.CharField("Telefon raqam", max_length=13, null=True)
     following = models.ManyToManyField("self", blank=True, null=True, related_name="followers", symmetrical=False)
+    is_private = models.BooleanField("Yopiq acount", default=False)
 
     class Meta:
         verbose_name = "Foydalanuvchi"

@@ -9,10 +9,6 @@
         <div class="row align-items-center mw-100">
           <div class="col">
             <div class="mb-1">
-              <ol class="breadcrumb" aria-label="breadcrumbs">
-                <li class="breadcrumb-item"><a href="#">Administration</a></li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="#">Settings</a></li>
-              </ol>
             </div>
             <h2 class="page-title">
               <span class="text-truncate">Sozlamalar</span>
@@ -20,19 +16,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12 col-md-4 px-4">
-          <div class="list-group list-group-transparent mb-3 ml-3">
-            <a class="list-group-item list-group-item-action d-flex align-items-center active"
-              href="#">
-              Profil sozlamalari
-            </a>
-            <a class="list-group-item list-group-item-action d-flex align-items-center"
-              href="#">
-              Mening ma'lumotlarim
-            </a>
-          </div>
-        </div>
+        {% include 'profile_menu_inc.html' %}
         <div class="col-12 col-md-8">
           <div class="row">
             <div class="col-12">
@@ -57,7 +41,47 @@
 
                   <form method="post" enctype="multipart/form-data">
                       {% csrf_token %}
-                      {{ form }}
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                            <label>Profil rasmi: </label>
+                            {{ form.avatar }}
+                            </div>
+                            <div class="form-group col-md-6">
+                            <label>Elektron manzil: </label>
+                            {{ form.email }}
+                            </div>
+
+                            <div class="form-group col-md-6">
+                            <label>Ism: </label>
+                            {{ form.first_name }}
+                            </div>
+                            <div class="form-group col-md-6">
+                            <label>Familiya: </label>
+                            {{ form.last_name }}
+                            </div>
+
+                            <div class="form-group col-md-6">
+                            <label>Telefon raqam: </label>
+                            {{ form.phone }}
+                            </div>
+                            <div class="form-group col-md-6">
+                            <label>Tug'ilgan sanasi: </label>
+                            {{ form.birthday }}
+                            </div>
+
+                            <div class="form-checkbox col-md-6">
+                                <br>
+                            <label>Akkaunt maxfiyligi:</label>
+                            </div>
+
+                            <div class="form-checkbox col-md-6">
+                                <br>
+                            <label class="form-check form-switch">{{ form.is_private }}</label>
+                            </div>
+
+                        </div>
+                      <br>
                       <button type="submit" class="btn btn-primary">
                           O'zgarishlarni saqlash
                       </button>
